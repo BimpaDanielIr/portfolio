@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Portfolio - Ir Daniel Bimpa</title>
+    <!-- Inclure la police Inter de Google Fonts pour une meilleure typographie -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Inclure Bootstrap CSS via CDN (version 5.3.3) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Inclure Font Awesome pour les icônes (version 6.0.0-beta3) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Styles personnalisés pour le corps et le défilement */
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            overflow-x: hidden; /* Empêche le défilement horizontal */
+            padding-top: 72px; /* Pour compenser le header Bootstrap fixe */
+        }
+
+        /* Ajustement des ancres pour le défilement fluide */
+        section {
+            scroll-margin-top: 72px; /* Décale les ancres pour ne pas être cachées par le header Bootstrap fixe */
+            padding: 5rem 0; /* Padding par défaut pour toutes les sections */
+        }
+
+        /* Styles spécifiques aux sections pour l'alternance de couleur de fond */
+        .bg-light-gray {
+            background-color: #e2e2e2;
+        }
+        .bg-white-custom {
+            background-color: #fff;
+        }
+
+        /* Styles Hero Section */
+        #accueil {
+            background: linear-gradient(135deg, #1a2a4b, #2c5364); /* Nouveau dégradé de bleu-gris plus profond et moderne */
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 0; /* Géré par min-height et align-items */
+        }
+        #accueil h2 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            color: #fff;
+        }
+        #accueil p {
+            font-size: 1.4rem;
+            font-weight: 300;
+        }
+
+        /* Styles de la photo de profil */
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 5px solid #007bff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem; /* Espacement après la photo */
+        }
+
+        /* Styles pour la liste des compétences */
+        .skills-list .list-inline-item {
+            background-color: #007bff;
+            color: #fff;
+            padding: 0.6rem 1.2rem;
+            margin: 0.5rem;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .skills-list .list-inline-item:hover {
+            background-color: #0056b3;
+        }
+
+        /* Styles pour les cartes de projet */
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important; /* !important pour surcharger Bootstrap si nécessaire */
+        }
+        .card-img-top {
+            height: 200px; /* Hauteur fixe pour toutes les images de projet */
+            object-fit: cover; /* Assure que l'image couvre l'espace sans déformation */
+        }
+        .card-title {
+            color: #2c3e50; /* Couleur des titres de carte */
+        }
+
+        /* Styles du pied de page */
+        footer {
+            border-top: 5px solid #007bff; /* Bordure bleue en haut du footer */
+        }
+        footer .social-links a {
+            transition: color 0.3s ease; /* Transition pour les liens sociaux */
+        }
+        footer .social-links a:hover {
+            color: #007bff !important; /* Force la couleur au survol */
+        }
+
+        /* Bouton Retour en haut */
+        #backToTopBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1050; /* Au-dessus de la plupart des éléments Bootstrap */
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            display: flex; /* Utilise flexbox pour centrer l'icône */
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            opacity: 0; /* Caché par défaut via JS, visible au scroll */
+            transition: opacity 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+        }
+        #backToTopBtn.show { /* Classe ajoutée/retirée par JS */
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #backToTopBtn:hover {
+            background-color: #0056b3 !important; /* Force la couleur au survol */
+            transform: translateY(-3px);
+        }
+
+        /* Styles pour la responsivité (adaptations supplémentaires) */
+        @media (max-width: 991.98px) { /* Pour les tablettes et plus petits */
+            .navbar-brand {
+                font-size: 1.6rem !important;
+            }
+            #accueil h2 {
+                font-size: 3.5rem;
+            }
+            #accueil p {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 767.98px) { /* Pour les mobiles */
+            body {
+                padding-top: 56px; /* Ajustement pour la navbar sur mobile */
+            }
+            section {
+                scroll-margin-top: 56px;
+                padding: 3rem 0; /* Moins de padding sur mobile */
+            }
+            #accueil h2 {
+                font-size: 2.8rem;
+            }
+            #accueil p {
+                font-size: 1.1rem;
+            }
+            .display-5 {
+                font-size: 2.2rem !important; /* Réduire les titres h2 des sections */
+            }
+            .profile-picture {
+                width: 120px;
+                height: 120px;
+                border-width: 3px;
+            }
+            #backToTopBtn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 575.98px) { /* Pour les très petits mobiles */
+            #accueil h2 {
+                font-size: 2rem;
+            }
+            #accueil p {
+                font-size: 0.9rem;
+            }
+            .btn-lg {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Styles pour le carrousel dans la section "Mes Réalisations et Engagements" */
+        .carousel-item img {
+            max-height: 400px; /* Limite la hauteur des images du carrousel */
+            width: auto; /* Ajuste la largeur automatiquement */
+            margin: 0 auto; /* Centre l'image */
+            display: block; /* Nécessaire pour le margin auto */
+            border-radius: 0.5rem; /* Coins arrondis */
+            object-fit: contain; /* S'assure que l'image est contenue sans la couper */
+        }
+
+        .carousel-caption {
+            background-color: rgba(0, 0, 0, 0.6); /* Fond semi-transparent pour le texte */
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            bottom: 1rem; /* Ajuste la position de la légende */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%; /* Largeur de la légende */
+            max-width: 500px;
+            color: #fff; /* Couleur du texte de la légende */
+        }
+
+        @media (max-width: 767.98px) {
+            .carousel-item img {
+                max-height: 250px;
+            }
+            .carousel-caption {
+                font-size: 0.8rem;
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SECTION : EN-TÊTE ET NAVIGATION (Navbar Bootstrap) -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
+            <div class="container">
+                <a class="navbar-brand fs-4 fw-bold" href="#accueil">Ir Daniel Bimpa</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#accueil">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#projets">Projets</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#a-propos">À Propos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- SECTION : ACCUEIL (Hero Section) -->
+    <section id="accueil" class="d-flex align-items-center justify-content-center text-white text-center">
+        <div class="container py-5">
+            <h2 class="display-4 fw-bold mb-4">Bonjour, je suis <br>Ingénieur en Réseaux et Systèmes Informatiques</h2>
+            <p class="lead mb-5">Je conçois et développe des solutions informatiques robustes, de l'infrastructure réseau au développement web, en passant par l'administration de bases de données.</p>
+            <a href="#projets" class="btn btn-primary btn-lg rounded-pill shadow-sm">Voir mes projets</a>
+        </div>
+    </section>
+
+    <!-- SECTION : PROJETS -->
+    <section id="projets" class="py-5 bg-white-custom">
+        <div class="container">
+            <h2 class="display-5 fw-bold mb-5 text-center">Mes Projets Récents</h2>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <!-- Projet Exemple 1 : Intégration de la photo de travail d'équipe -->
+                <div class="col">
+                    <div class="card h-100 shadow-sm rounded-4">
+                        <!-- Assurez-vous que 'travailler en equipe en reseaux.JPG' est dans votre dossier 'images/' sur GitHub. -->
+                        <img src="images/reseaux.jpg" class="card-img-top rounded-top-4" alt="Image d'équipe travaillant sur un réseau">
+                        <div class="card-body text-start">
+                            <h3 class="card-title h4 text-primary fw-bold">Déploiement et Administration Réseaux</h3>
+                            <p class="card-text text-muted">Mise en place et sécurisation d'infrastructures réseau complexes en équipe, incluant la configuration de routeurs, switchs et firewalls pour optimiser la performance et la sécurité.</p>
+                            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill project-detail-btn" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#projectDetailModal"
+                                    data-project-title="Déploiement et Administration Réseaux"
+                                    data-project-description="Ce projet a impliqué la conception, le déploiement et la sécurisation d'une infrastructure réseau pour une PME, en assurant une connectivité fiable et une protection contre les cybermenaces."
+                                    data-project-details="&lt;p&gt;&lt;strong&gt;Rôle :&lt;/strong&gt; Ingénieur Réseaux principal.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Technologies :&lt;/strong&gt; Cisco IOS, FortiGate Firewall, VLANs, OSPF, VPNs.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Défis :&lt;/strong&gt; Intégration de systèmes hétérogènes et migration sans interruption de service. &lt;/p&gt;&lt;p&gt;&lt;strong&gt;Résultats :&lt;/strong&gt; Augmentation de la disponibilité du réseau de 99.5% à 99.9% et réduction des incidents de sécurité de 40%.&lt;/p&gt;">Détails du Projet</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Projet Exemple 2 : Image générique, à remplacer par un projet de développement web -->
+                <div class="col">
+                    <div class="card h-100 shadow-sm rounded-4">
+                        <!-- Assurez-ou que 'img6.jpg' est dans votre dossier 'images/' sur GitHub, ou remplacez par votre image de projet web. -->
+                        <img src="images/web.jpg" class="card-img-top rounded-top-4" alt="Image d'application web">
+                        <div class="card-body text-start">
+                            <h3 class="card-title h4 text-primary fw-bold">Développement Web Fullstack avec Base de Données</h3>
+                            <p class="card-text text-muted">Conception et développement d'applications web dynamiques, de l'interface utilisateur à la gestion backend, avec une intégration robuste de bases de données MySQL.</p>
+                            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill project-detail-btn" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#projectDetailModal"
+                                    data-project-title="Application de Gestion Client (CRM)"
+                                    data-project-description="Développement d'une application web CRM sur mesure pour une startup, permettant la gestion des clients, des ventes et des interactions, avec un tableau de bord analytique."
+                                    data-project-details="&lt;p&gt;&lt;strong&gt;Rôle :&lt;/strong&gt; Développeur Fullstack.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Technologies :&lt;/strong&gt; HTML, CSS, JavaScript, React.js (Frontend), Node.js/Express (Backend), MySQL.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Défis :&lt;/strong&gt; Optimisation des requêtes SQL pour des bases de données volumineuses et implémentation d'une authentification sécurisée.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Résultats :&lt;/strong&gt; Amélioration de 25% de l'efficacité de la gestion client et augmentation des ventes de 15% grâce à un meilleur suivi.&lt;/p&gt;">Détails du Projet</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Projet Exemple 3 : Image générique, à remplacer par un projet d'administration système -->
+                <div class="col">
+                    <div class="card h-100 shadow-sm rounded-4">
+                        <!-- Assurez-ou que 'img5.jpg' est dans votre dossier 'images/' sur GitHub, ou remplacez par votre image de projet système. -->
+                        <img src="images/admin system.jpg" class="card-img-top rounded-top-4" alt="Image d'administration système">
+                        <div class="card-body text-start">
+                            <h3 class="card-title h4 text-primary fw-bold">Administration et Optimisation de Systèmes</h3>
+                            <p class="card-text text-muted">Gestion, maintenance et optimisation de serveurs sous divers OS (Linux, Windows), incluant la virtualisation et la mise en œuvre de stratégies de sécurité et de sauvegarde.</p>
+                            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill project-detail-btn" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#projectDetailModal"
+                                    data-project-title="Optimisation de Serveurs Cloud pour la Performance"
+                                    data-project-description="Projet d'optimisation de l'infrastructure serveur sur AWS, en mettant l'accent sur la performance, la redondance et la réduction des coûts opérationnels."
+                                    data-project-details="&lt;p&gt;&lt;strong&gt;Rôle :&lt;/strong&gt; Administrateur Système Cloud.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Technologies :&lt;/strong&gt; AWS EC2, S3, RDS, Docker, Bash Scripting.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Défis :&lt;/strong&gt; Migration de bases de données et configuration de la mise à l'échelle automatique. &lt;/p&gt;&lt;p&gt;&lt;strong&gt;Résultats :&lt;/strong&gt; Amélioration du temps de réponse des applications de 30% et réduction des coûts d'infrastructure de 15%.&lt;/p&gt;">Détails du Projet</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Vous pouvez ajouter d'autres projets ici en dupliquant la structure <div class="col">...</div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION : À PROPOS -->
+    <section id="a-propos" class="py-5 bg-light-gray">
+        <div class="container">
+            <h2 class="display-5 fw-bold mb-5 text-center">À Propos de Moi</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <!-- Votre photo de profil principale -->
+                    <!-- Assurez-vous que 'profil.jpg' (ou 'mon profil.jpg') est dans votre dossier 'images/' sur GitHub. -->
+                    <img src="images/profil.jpg" alt="Photo de profil Ir Daniel Bimpa" class="profile-picture rounded-circle mb-4">
+
+                    <div class="about-content text-start">
+                        <p class="lead text-justify">Bonjour ! Je m'appelle Ir Daniel Bimpa et je suis un Ingénieur en Réseaux et Systèmes Informatiques passionné avec de solides années d'expérience dans le domaine de l'IT. Mon objectif est de créer des solutions informatiques efficaces et robustes qui répondent aux besoins de mes clients et utilisateurs.</p>
+                        <p class="text-justify">J'aime relever de nouveaux défis et apprendre constamment. Ma curiosité me pousse à explorer les dernières tendances et technologies pour offrir des résultats innovants et de haute qualité.</p>
+                        <p class="text-justify">Au-delà de mes compétences techniques, je suis également rigoureux, méthodique et j'apprécie le travail d'équipe.</p>
+                        <h3 class="h4 mt-5 mb-4 text-center">Mes Compétences Clés :</h3>
+                        <ul class="list-inline text-center skills-list">
+                            <li class="list-inline-item">Informatique Générale</li>
+                            <li class="list-inline-item">Administration Réseaux et Systèmes</li>
+                            <li class="list-inline-item">Développement Web fullstack</li>
+                            <li class="list-inline-item">Administration Bases de Données MySQL</li>
+                            <li class="list-inline-item">Sécurité Informatique</li>
+                            <li class="list-inline-item">Virtualisation</li>
+                        </ul>
+
+                        <hr class="my-5">
+
+                        <!-- Nouvelle section : Analyseur de Compétences IA -->
+                        <h3 class="h4 mt-5 mb-4 text-center">✨ Votre Projet, Mes Compétences : Voyons comment je peux vous aider !</h3>
+                        <p class="text-center text-muted mb-4">Décrivez brièvement un projet, un poste ou un défi. Mon assistant IA vous montrera comment mes compétences s'y adaptent.</p>
+                        <div class="form-group mb-3">
+                            <textarea class="form-control rounded-3 shadow-sm p-3" id="projectDescription" rows="5" placeholder="Ex: Nous cherchons un ingénieur pour sécuriser notre infrastructure cloud et développer une application interne de gestion de base de données..."></textarea>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary btn-lg rounded-pill shadow-sm" id="generateSummaryBtn">✨ Générer l'Analyse des Compétences</button>
+                        </div>
+                        
+                        <div id="loadingIndicator" class="text-center mt-3 d-none">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Chargement...</span>
+                            </div>
+                            <p class="text-muted mt-2">Analyse en cours, veuillez patienter...</p>
+                        </div>
+
+                        <div id="aiResponse" class="mt-4 p-4 bg-white-custom rounded-4 shadow-sm text-start" style="display: none;">
+                            <h4 class="text-primary mb-3"><i class="fas fa-magic"></i> Résultat de l'Analyse :</h4>
+                            <p class="text-muted" id="aiResponseText"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Section pour les photos de formation / certification, mise à jour avec carrousel -->
+            <div class="row justify-content-center mt-5">
+                <div class="col-lg-10">
+                    <h3 class="h4 mb-4 text-center">Mes Réalisations et Engagements</h3>
+                    <div id="engagementsCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3500">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#engagementsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#engagementsCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#engagementsCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            <button type="button" data-bs-target="#engagementsCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <!-- Assurez-vous que 'formateur .jpg' est dans votre dossier 'images/' sur GitHub. -->
+                                <img src="images/formateur .jpg" class="d-block w-100 rounded-3" alt="Ir Daniel Bimpa en formation">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Formation et Transmission</h5>
+                                    <p>Partager mes connaissances est une passion, pour développer les compétences de demain.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <!-- Assurez-vous que 'mon certicat.jpg' est dans votre dossier 'images/' sur GitHub. -->
+                                <img src="images/mon certicat.jpg" class="d-block w-100 rounded-3" alt="Mon certificat professionnel">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Certifications Obtenues</h5>
+                                    <p>Des preuves concrètes de mon expertise et de mes acquis professionnels.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <!-- Assurez-vous que 'certication .jpg' est dans votre dossier 'images/' sur GitHub. -->
+                                <img src="images/certication .jpg" class="d-block w-100 rounded-3" alt="Cérémonie de certification collective">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Reconnaissance et Réseautage</h5>
+                                    <p>Des accomplissements collectifs et un engagement au sein de la communauté IT.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <!-- Nouvelle image : QIKA5495[1].jpg -->
+                                <img src="images/QIKA5495[1].jpg" class="d-block w-100 rounded-3" alt="Ir Daniel Bimpa en présentation">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Interventions et Conférences</h5>
+                                    <p>Engagé dans la communauté, je partage activement mon savoir lors d'événements IT.</p>
+                                </div>
+                            </div>
+                            <!-- Ajout de la nouvelle image pour l'animation -->
+                            <div class="carousel-item">
+                                <img src="images/travailler en equipe en reseaux.JPG" class="d-block w-100 rounded-3" alt="Travail en équipe sur les réseaux">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Collaboration et Projets d'Équipe</h5>
+                                    <p>La force du travail d'équipe au service de solutions réseau innovantes.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#engagementsCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Précédent</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#engagementsCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Suivant</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION : CONTACT -->
+    <section id="contact" class="py-5 bg-white-custom">
+        <div class="container">
+            <h2 class="display-5 fw-bold mb-5 text-center">Me Contacter</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <p class="lead mb-4">Vous avez un projet en tête ou simplement envie de discuter ? N'hésitez pas à me contacter ! Je serais ravi(e) de collaborer.</p>
+                    
+                    <!-- Formulaire de Contact -->
+                    <form id="contactForm" class="text-start">
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-bold">Nom Complet</label>
+                            <input type="text" class="form-control rounded-3 shadow-sm" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-bold">Adresse Email</label>
+                            <input type="email" class="form-control rounded-3 shadow-sm" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label fw-bold">Votre Message</label>
+                            <textarea class="form-control rounded-3 shadow-sm" id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm" id="submitContactBtn">Envoyer le Message</button>
+                        </div>
+                        <div id="contactFormMessage" class="mt-3 text-center d-none"></div>
+                        <div id="contactLoadingIndicator" class="text-center mt-3 d-none">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Envoi en cours...</span>
+                            </div>
+                            <p class="text-muted mt-2">Envoi de votre message, veuillez patienter...</p>
+                        </div>
+                    </form>
+
+                    <p class="h5 mt-4 mb-3">Ou contactez-moi directement :</p>
+                    <p class="h5 mb-3">Téléphone : <a href="tel:+25768792720" class="text-decoration-none fw-bold text-primary">+25768792720</a></p>
+                    <p class="h5 mb-3">Email : <a href="mailto:bimpadaniel133@gmail.com" class="text-decoration-none fw-bold text-primary">bimpadaniel133@gmail.com</a> ou <a href="mailto:innovatech133@gmail.com" class="text-decoration-none fw-bold text-primary">innovatech133@gmail.com</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION : PIED DE PAGE -->
+    <footer class="bg-dark text-white text-center py-4">
+        <div class="container">
+            <p class="mb-3">&copy; 2025 Ir Daniel Bimpa. Tous droits réservés.</p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/votreprofil" target="_blank" class="text-white mx-3 fs-5 text-decoration-none fw-bold"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                <a href="https://github.com/votregithub" target="_blank" class="text-white mx-3 fs-5 text-decoration-none fw-bold"><i class="fab fa-github"></i> GitHub</a>
+                <a href="https://www.behance.net/votreprofil" target="_blank" class="text-white mx-3 fs-5 text-decoration-none fw-bold"><i class="fab fa-behance"></i> Behance</a>
+                <!-- Ajoutez d'autres liens sociaux si vous en avez -->
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bouton Retour en haut de la page -->
+    <button id="backToTopBtn" title="Retour en haut" class="btn btn-primary rounded-circle shadow-lg">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Modal pour les détails de projet -->
+    <div class="modal fade" id="projectDetailModal" tabindex="-1" aria-labelledby="projectDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-4 shadow-lg">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title fw-bold text-primary" id="projectDetailModalLabel">Titre du Projet</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-start">
+                    <!-- Contenu détaillé du projet sera injecté ici par JavaScript -->
+                    <p id="modalProjectDescription" class="lead text-muted mb-4"></p>
+                    <div id="modalProjectDetails"></div>
+                </div>
+                <div class="modal-footer border-top-0">
+                    <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle (Popper.js et Bootstrap JS) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <!-- SCRIPTS JAVASCRIPT PERSONNALISÉS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- 1. Défilement fluide (Smooth Scrolling) ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault(); // Empêche le comportement de saut par default
+
+                    // Récupère l'ID de la section cible (ex: #projets)
+                    const targetId = this.getAttribute('href');
+                    // Sélectionne l'élément cible
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        // Récupère la hauteur de la barre de navigation Bootstrap de manière dynamique
+                        const navbar = document.querySelector('.navbar');
+                        const navbarHeight = navbar ? navbar.offsetHeight : 0; // Gérer le cas où la navbar n'est pas trouvée
+
+                        // Fait défiler la page vers l'élément cible avec un comportement fluide
+                        window.scrollTo({
+                            top: targetElement.offsetTop - navbarHeight, // Ajuste pour le header fixe
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // --- 2. Bouton "Retour en haut" (Back to Top) ---
+            const backToTopBtn = document.getElementById('backToTopBtn');
+
+            // Afficher ou cacher le bouton en fonction du défilement
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) { // Affiche le bouton si l'utilisateur a défilé plus de 300px
+                    backToTopBtn.classList.add('show'); // Ajoute la classe 'show' pour l'opacité
+                } else {
+                    backToTopBtn.classList.remove('show'); // Retire la classe 'show'
+                }
+            });
+
+            // Faire défiler la page vers le haut quand le bouton est cliqué
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth' // Défilement fluide vers le haut
+                });
+            });
+
+            // --- 3. Intégration de l'API Gemini : Générateur de Résumé de Compétences ---
+            const projectDescriptionInput = document.getElementById('projectDescription');
+            const generateSummaryBtn = document.getElementById('generateSummaryBtn');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const aiResponseDiv = document.getElementById('aiResponse');
+            const aiResponseText = document.getElementById('aiResponseText');
+
+            // Profil de compétences de Ir Daniel Bimpa (pour le prompt de l'IA)
+            const danielSkills = [
+                "Informatique Générale",
+                "Administration Réseaux et Systèmes",
+                "Développement Web fullstack",
+                "Administration Bases de Données MySQL",
+                "Sécurité Informatique",
+                "Virtualisation"
+            ].join(', ');
+
+            const danielProfile = `Je suis Ir Daniel Bimpa, Ingénieur en Réseaux et Systèmes Informatiques, avec des compétences clés en ${danielSkills}. Je suis rigoureux, méthodique et apprécie le travail d'équipe.`;
+
+            // URL du backend Apps Script pour l'API Gemini
+            const APPS_SCRIPT_WEBHOOK_URL_GEMINI = 'https://script.google.com/macros/s/AKfycbycVbeCi88utBfIQmcn3Ie06zwb2Oh7Oxj_baExyeCLzSdnLoHB4XwG-9KpTyXFXVHYMw/exec'; // URL réelle pour le service Gemini
+
+            generateSummaryBtn.addEventListener('click', async function() {
+                const userDescription = projectDescriptionInput.value.trim();
+
+                if (!userDescription) {
+                    aiResponseText.innerHTML = '<span class="text-danger">Veuillez décrire le projet ou le poste avant de générer l\'analyse.</span>';
+                    aiResponseDiv.style.display = 'block';
+                    return;
+                }
+
+                // Afficher l'indicateur de chargement et cacher la réponse précédente
+                aiResponseDiv.style.display = 'none';
+                loadingIndicator.classList.remove('d-none');
+                aiResponseText.textContent = ''; // Vider le texte précédent
+
+                const prompt = `Voici mon profil professionnel: "${danielProfile}". Un utilisateur me demande de lui indiquer comment mes compétences s'alignent avec le besoin suivant: "${userDescription}". En te basant uniquement sur mon profil fourni, rédige une courte réponse convaincante (max 150 mots) expliquant comment mes compétences me rendent pertinent pour ce besoin. Commence directement par la réponse sans salutation ni introduction superflue.`;
+
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                try {
+                    const response = await fetch(APPS_SCRIPT_WEBHOOK_URL_GEMINI, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ contents: chatHistory })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            const text = result.candidates[0].content.parts[0].text;
+                            aiResponseText.textContent = text;
+                            aiResponseDiv.style.display = 'block';
+                        } else {
+                            console.error('Erreur: Structure de réponse inattendue du proxy Apps Script ou de l\'API Gemini.', result);
+                            aiResponseText.innerHTML = '<span class="text-danger">Désolé, une erreur est survenue lors de la génération de l\'analyse. Veuillez réessayer.</span>';
+                            aiResponseDiv.style.display = 'block';
+                        }
+                    } else {
+                        console.error('Erreur du proxy Apps Script:', result.error || 'Erreur inconnue');
+                        aiResponseText.innerHTML = `<span class="text-danger">Erreur du service d'analyse des compétences: ${result.error || 'Veuillez réessayer plus tard.'}</span>`;
+                        aiResponseDiv.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de l\'appel au proxy Apps Script:', error);
+                    aiResponseText.innerHTML = '<span class="text-danger">Impossible de contacter le service d\'analyse des compétences. Vérifiez votre connexion.</span>';
+                    aiResponseDiv.style.display = 'block';
+                } finally {
+                    loadingIndicator.classList.add('d-none');
+                }
+            });
+
+            // --- 4. Formulaire de Contact : Envoi des données via Apps Script ---
+            const contactForm = document.getElementById('contactForm');
+            const submitContactBtn = document.getElementById('submitContactBtn');
+            const contactFormMessage = document.getElementById('contactFormMessage');
+            const contactLoadingIndicator = document.getElementById('contactLoadingIndicator');
+
+            // URL du backend Apps Script pour le formulaire de contact
+            const APPS_SCRIPT_WEBHOOK_URL_CONTACT = 'https://script.google.com/macros/s/AKfycby7Fl0YOifW0phrupvG9h3FArntreyKkfr3DF_wzqiTVtvM15DGSmIRLVZDmGHBkdo0/exec'; // URL réelle pour le formulaire de contact
+
+            contactForm.addEventListener('submit', async function(event) {
+                event.preventDefault(); // Empêche le rechargement de la page
+
+                // Récupérer les données du formulaire
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+
+                // Afficher l'indicateur de chargement et cacher le message précédent
+                contactFormMessage.classList.add('d-none');
+                contactLoadingIndicator.classList.remove('d-none');
+                submitContactBtn.disabled = true; // Désactiver le bouton pour éviter les doubles soumissions
+
+                try {
+                    const response = await fetch(APPS_SCRIPT_WEBHOOK_URL_CONTACT, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ name: name, email: email, message: message })
+                    });
+
+                    const result = await response.json();
+
+                    // Cacher l'indicateur de chargement
+                    contactLoadingIndicator.classList.add('d-none');
+                    contactFormMessage.classList.remove('d-none');
+
+                    if (result.success) {
+                        contactFormMessage.className = 'mt-3 text-center alert alert-success';
+                        contactFormMessage.textContent = result.message;
+                        contactForm.reset(); // Réinitialiser le formulaire après succès
+                    } else {
+                        contactFormMessage.className = 'mt-3 text-center alert alert-danger';
+                        contactFormMessage.textContent = result.message || 'Une erreur est survenue lors de l\'envoi de votre message.';
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de l\'envoi du formulaire de contact:', error);
+                    contactLoadingIndicator.classList.add('d-none');
+                    contactFormMessage.classList.remove('d-none');
+                    contactFormMessage.className = 'mt-3 text-center alert alert-danger';
+                    contactFormMessage.textContent = 'Impossible d\'envoyer le message. Veuillez réessayer plus tard.';
+                } finally {
+                    submitContactBtn.disabled = false; // Réactiver le bouton
+                }
+            });
+
+            // --- 5. Fonctionnalité des Modales de Détails de Projet ---
+            const projectDetailModal = document.getElementById('projectDetailModal');
+            projectDetailModal.addEventListener('show.bs.modal', function (event) {
+                // Bouton qui a déclenché la modale
+                const button = event.relatedTarget; 
+
+                // Récupérer les données des attributs data-
+                const title = button.getAttribute('data-project-title');
+                const description = button.getAttribute('data-project-description');
+                const details = button.getAttribute('data-project-details');
+
+                // Mettre à jour le contenu de la modale
+                const modalTitle = projectDetailModal.querySelector('.modal-title');
+                const modalBodyDescription = projectDetailModal.querySelector('#modalProjectDescription');
+                const modalBodyDetails = projectDetailModal.querySelector('#modalProjectDetails');
+
+                modalTitle.textContent = title;
+                modalBodyDescription.textContent = description;
+                modalBodyDetails.innerHTML = details; // Utiliser innerHTML car les détails peuvent contenir du HTML
+            });
+        });
+    </script>
+
+</body>
+</html>
