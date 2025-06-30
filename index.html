@@ -10,7 +10,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
+            scroll-behavior: smooth; /* Déjà présent et très bien pour la navigation fluide */
         }
         
         .gradient-bg {
@@ -69,9 +69,17 @@
             width: 100%;
         }
         
+        /* Styles pour le carrousel */
+        .carousel-item {
+            display: none; /* Caché par défaut */
+        }
+        .carousel-item.active {
+            display: block; /* Affiche l'élément actif */
+        }
         .carousel-item img {
             max-height: 500px;
-            object-fit: contain;
+            object-fit: contain; /* Garde les proportions et contient l'image */
+            width: 100%; /* S'assure que l'image prend toute la largeur du conteneur */
         }
         
         .carousel-caption {
@@ -88,10 +96,45 @@
             border: none;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
+
+        /* Style pour la modale */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto; /* Centered */
+            padding: 20px;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
-    <!-- Navigation -->
     <header class="fixed w-full z-50">
         <nav class="bg-gray-900 text-white shadow-lg">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -115,12 +158,14 @@
                             <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
+                            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
                         </button>
                     </div>
                 </div>
             </div>
             
-            <!-- Menu mobile -->
             <div class="mobile-menu hidden md:hidden bg-gray-800">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     <a href="#accueil" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700 rounded-md transition duration-300">Accueil</a>
@@ -132,7 +177,6 @@
         </nav>
     </header>
 
-    <!-- Hero Section -->
     <section id="accueil" class="gradient-bg text-white min-h-screen flex items-center pt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="text-center md:text-left md:flex md:items-center md:justify-between">
@@ -167,7 +211,6 @@
         </div>
     </section>
 
-    <!-- Projets Section -->
     <section id="projets" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -180,7 +223,6 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Projet 1 -->
                 <div class="project-card bg-white rounded-xl overflow-hidden shadow-md">
                     <img src="images/reseaux.jpg" alt="Déploiement réseau" class="w-full h-56 object-cover">
                     <div class="p-6">
@@ -202,7 +244,6 @@
                     </div>
                 </div>
                 
-                <!-- Projet 2 -->
                 <div class="project-card bg-white rounded-xl overflow-hidden shadow-md">
                     <img src="images/web.jpg" alt="Développement web" class="w-full h-56 object-cover">
                     <div class="p-6">
@@ -224,7 +265,6 @@
                     </div>
                 </div>
                 
-                <!-- Projet 3 -->
                 <div class="project-card bg-white rounded-xl overflow-hidden shadow-md">
                     <img src="images/admin system.jpg" alt="Administration système" class="w-full h-56 object-cover">
                     <div class="p-6">
@@ -249,7 +289,15 @@
         </div>
     </section>
 
-    <!-- À Propos Section -->
+    <div id="projectDetailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3 id="modalProjectTitle" class="text-2xl font-bold text-gray-900 mb-4"></h3>
+            <p id="modalProjectDescription" class="text-gray-700 mb-4"></p>
+            <div id="modalProjectDetails" class="text-gray-600"></div>
+        </div>
+    </div>
+
     <section id="a-propos" class="py-20 bg-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -324,14 +372,12 @@
                 </div>
             </div>
             
-            <!-- Réalisations et Engagements -->
             <div class="mt-20">
                 <h3 class="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-10">Mes <span class="text-blue-600">Réalisations</span> et Engagements</h3>
                 
                 <div class="relative">
                     <div class="carousel relative rounded-xl overflow-hidden shadow-xl">
                         <div class="carousel-inner relative w-full overflow-hidden">
-                            <!-- Slide 1 -->
                             <div class="carousel-item active relative float-left w-full">
                                 <img src="images/formateur .jpg" class="block w-full h-96 object-cover" alt="Formation et Transmission">
                                 <div class="carousel-caption absolute bottom-0 left-0 right-0 p-6 bg-black bg-opacity-70 text-white">
@@ -340,7 +386,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Slide 2 -->
                             <div class="carousel-item relative float-left w-full">
                                 <img src="images/mon certicat.jpg" class="block w-full h-96 object-cover" alt="Certifications Obtenues">
                                 <div class="carousel-caption absolute bottom-0 left-0 right-0 p-6 bg-black bg-opacity-70 text-white">
@@ -349,7 +394,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Slide 3 -->
                             <div class="carousel-item relative float-left w-full">
                                 <img src="images/certication .jpg" class="block w-full h-96 object-cover" alt="Reconnaissance et Réseautage">
                                 <div class="carousel-caption absolute bottom-0 left-0 right-0 p-6 bg-black bg-opacity-70 text-white">
@@ -358,7 +402,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Slide 4 -->
                             <div class="carousel-item relative float-left w-full">
                                 <img src="images/QIKA5495[1].jpg" class="block w-full h-96 object-cover" alt="Interventions et Conférences">
                                 <div class="carousel-caption absolute bottom-0 left-0 right-0 p-6 bg-black bg-opacity-70 text-white">
@@ -367,7 +410,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Slide 5 -->
                             <div class="carousel-item relative float-left w-full">
                                 <img src="images/travailler en equipe en reseaux.JPG" class="block w-full h-96 object-cover" alt="Collaboration et Projets d'Équipe">
                                 <div class="carousel-caption absolute bottom-0 left-0 right-0 p-6 bg-black bg-opacity-70 text-white">
@@ -377,7 +419,6 @@
                             </div>
                         </div>
                         
-                        <!-- Contrôles -->
                         <button class="carousel-control-prev absolute top-1/2 left-4 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition duration-300" type="button">
                             <i class="fas fa-chevron-left"></i>
                             <span class="sr-only">Précédent</span>
@@ -388,8 +429,7 @@
                         </button>
                     </div>
                     
-                    <!-- Indicateurs -->
-                    <div class="flex justify-center mt-4 space-x-2">
+                    <div class="flex justify-center mt-4 space-x-2" id="carousel-indicators">
                         <button class="w-3 h-3 rounded-full bg-blue-600" aria-label="Slide 1"></button>
                         <button class="w-3 h-3 rounded-full bg-gray-300" aria-label="Slide 2"></button>
                         <button class="w-3 h-3 rounded-full bg-gray-300" aria-label="Slide 3"></button>
@@ -401,7 +441,6 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
     <section id="contact" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -479,25 +518,20 @@
                                     <p class="text-gray-600">Burundi</p>
                                 </div>
                             </div>
-                            
-                            <div class="flex items-start">
-                                <div class="flex-shrink-0 bg-blue-100 p-3 rounded-full text-blue-600">
-                                    <i class="fas fa-share-alt"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <h4 class="text-lg font-medium text-gray-900">Réseaux Sociaux</h4>
-                                    <div class="flex space-x-4 mt-2">
-                                        <a href="https://www.linkedin.com/in/votreprofil" target="_blank" class="text-gray-600 hover:text-blue-600 transition duration-300">
-                                            <i class="fab fa-linkedin text-2xl"></i>
-                                        </a>
-                                        <a href="https://github.com/votregithub" target="_blank" class="text-gray-600 hover:text-gray-900 transition duration-300">
-                                            <i class="fab fa-github text-2xl"></i>
-                                        </a>
-                                        <a href="https://www.behance.net/votreprofil" target="_blank" class="text-gray-600 hover:text-blue-800 transition duration-300">
-                                            <i class="fab fa-behance text-2xl"></i>
-                                        </a>
-                                    </div>
-                                </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-4">Suivez-moi</h3>
+                            <div class="flex space-x-4">
+                                <a href="https://linkedin.com/in/danielbimpa" target="_blank" class="text-gray-600 hover:text-blue-600 transition duration-300">
+                                    <i class="fab fa-linkedin text-3xl"></i>
+                                </a>
+                                <a href="#" target="_blank" class="text-gray-600 hover:text-blue-600 transition duration-300">
+                                    <i class="fab fa-twitter-square text-3xl"></i>
+                                </a>
+                                <a href="#" target="_blank" class="text-gray-600 hover:text-blue-600 transition duration-300">
+                                    <i class="fab fa-github-square text-3xl"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -506,287 +540,267 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-gray-900 text-white py-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-6 md:mb-0">
-                    <a href="#accueil" class="text-2xl font-bold text-white hover:text-blue-300 transition duration-300">
-                        <span class="text-blue-400">Ir</span> Daniel Bimpa
-                    </a>
-                    <p class="mt-2 text-gray-400">Ingénieur en Réseaux & Systèmes Informatiques</p>
-                </div>
-                
-                <div class="flex space-x-6">
-                    <a href="#accueil" class="text-gray-400 hover:text-white transition duration-300">Accueil</a>
-                    <a href="#projets" class="text-gray-400 hover:text-white transition duration-300">Projets</a>
-                    <a href="#a-propos" class="text-gray-400 hover:text-white transition duration-300">À Propos</a>
-                    <a href="#contact" class="text-gray-400 hover:text-white transition duration-300">Contact</a>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 mb-4 md:mb-0">&copy; 2025 Ir Daniel Bimpa. Tous droits réservés.</p>
-                
-                <div class="flex space-x-6">
-                    <a href="https://www.linkedin.com/in/votreprofil" target="_blank" class="text-gray-400 hover:text-blue-400 transition duration-300">
-                        <i class="fab fa-linkedin text-xl"></i>
-                    </a>
-                    <a href="https://github.com/votregithub" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
-                        <i class="fab fa-github text-xl"></i>
-                    </a>
-                    <a href="https://www.behance.net/votreprofil" target="_blank" class="text-gray-400 hover:text-blue-600 transition duration-300">
-                        <i class="fab fa-behance text-xl"></i>
-                    </a>
-                </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; <span id="current-year"></span> Ir Daniel Bimpa. Tous droits réservés.</p>
+            <div class="mt-4 flex justify-center space-x-6">
+                <a href="#accueil" class="text-gray-400 hover:text-white transition duration-300">Accueil</a>
+                <a href="#projets" class="text-gray-400 hover:text-white transition duration-300">Projets</a>
+                <a href="#a-propos" class="text-gray-400 hover:text-white transition duration-300">À Propos</a>
+                <a href="#contact" class="text-gray-400 hover:text-white transition duration-300">Contact</a>
             </div>
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
-    <button id="backToTopBtn" class="back-to-top fixed bottom-8 right-8 bg-blue-600 text-white p-4 rounded-full shadow-xl opacity-0 invisible transition-all duration-300">
-        <i class="fas fa-arrow-up"></i>
+    <button id="backToTopBtn" class="back-to-top fixed bottom-8 right-8 bg-blue-600 text-white p-4 rounded-full shadow-lg hidden">
+        <i class="fas fa-arrow-up text-xl"></i>
     </button>
 
-    <!-- Project Detail Modal -->
-    <div id="projectDetailModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 opacity-0 invisible transition-opacity duration-300">
-        <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 id="modalProjectTitle" class="text-2xl font-bold text-gray-900"></h3>
-                    <button id="closeModalBtn" class="text-gray-400 hover:text-gray-600 transition duration-300">
-                        <i class="fas fa-times text-xl"></i>
-                    </button>
-                </div>
-                
-                <p id="modalProjectDescription" class="text-gray-600 mb-6"></p>
-                
-                <div id="modalProjectDetails" class="prose max-w-none"></div>
-                
-                <div class="mt-8">
-                    <button id="modalCloseBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
-                        Fermer
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mobile Menu Toggle
-            const mobileMenuButton = document.querySelector('.mobile-menu-button');
-            const mobileMenu = document.querySelector('.mobile-menu');
-            
-            mobileMenuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-            });
-            
-            // Close mobile menu when clicking on a link
-            document.querySelectorAll('.mobile-menu a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-            
-            // Smooth scrolling for all links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    
-                    if (targetElement) {
-                        const navbarHeight = document.querySelector('nav').offsetHeight;
-                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-                        
-                        window.scrollTo({
-                            top: targetPosition,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-            
-            // Back to Top Button
-            const backToTopBtn = document.getElementById('backToTopBtn');
-            
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 300) {
-                    backToTopBtn.classList.remove('invisible');
-                    backToTopBtn.classList.add('visible');
-                    backToTopBtn.classList.remove('opacity-0');
-                    backToTopBtn.classList.add('opacity-100');
-                } else {
-                    backToTopBtn.classList.remove('visible');
-                    backToTopBtn.classList.add('invisible');
-                    backToTopBtn.classList.remove('opacity-100');
-                    backToTopBtn.classList.add('opacity-0');
-                }
-            });
-            
-            backToTopBtn.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-            
-            // Carousel functionality
-            let currentSlide = 0;
-            const slides = document.querySelectorAll('.carousel-item');
-            const dots = document.querySelectorAll('.carousel-inner button');
-            const prevBtn = document.querySelector('.carousel-control-prev');
-            const nextBtn = document.querySelector('.carousel-control-next');
-            
-            function showSlide(index) {
-                slides.forEach((slide, i) => {
-                    slide.classList.toggle('active', i === index);
-                });
-                
-                dots.forEach((dot, i) => {
-                    dot.classList.toggle('bg-blue-600', i === index);
-                    dot.classList.toggle('bg-gray-300', i !== index);
-                });
-                
-                currentSlide = index;
-            }
-            
-            prevBtn.addEventListener('click', function() {
-                showSlide((currentSlide - 1 + slides.length) % slides.length);
-            });
-            
-            nextBtn.addEventListener('click', function() {
-                showSlide((currentSlide + 1) % slides.length);
-            });
-            
-            dots.forEach((dot, i) => {
-                dot.addEventListener('click', () => showSlide(i));
-            });
-            
-            // Auto-rotate carousel
-            let carouselInterval = setInterval(() => {
-                showSlide((currentSlide + 1) % slides.length);
-            }, 5000);
-            
-            // Pause carousel on hover
-            const carousel = document.querySelector('.carousel');
-            carousel.addEventListener('mouseenter', () => clearInterval(carouselInterval));
-            carousel.addEventListener('mouseleave', () => {
-                carouselInterval = setInterval(() => {
-                    showSlide((currentSlide + 1) % slides.length);
-                }, 5000);
-            });
-            
-            // Project Detail Modal
-            const projectDetailModal = document.getElementById('projectDetailModal');
-            const projectDetailButtons = document.querySelectorAll('.project-detail-btn');
-            const closeModalBtn = document.getElementById('closeModalBtn');
-            const modalCloseBtn = document.getElementById('modalCloseBtn');
-            
-            projectDetailButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const title = this.getAttribute('data-project-title');
-                    const description = this.getAttribute('data-project-description');
-                    const details = this.getAttribute('data-project-details');
-                    
-                    document.getElementById('modalProjectTitle').textContent = title;
-                    document.getElementById('modalProjectDescription').textContent = description;
-                    document.getElementById('modalProjectDetails').innerHTML = details;
-                    
-                    projectDetailModal.classList.remove('invisible');
-                    projectDetailModal.classList.remove('opacity-0');
-                    projectDetailModal.classList.add('opacity-100');
-                });
-            });
-            
-            function closeModal() {
-                projectDetailModal.classList.remove('opacity-100');
-                projectDetailModal.classList.add('opacity-0');
-                setTimeout(() => {
-                    projectDetailModal.classList.add('invisible');
-                }, 300);
-            }
-            
-            closeModalBtn.addEventListener('click', closeModal);
-            modalCloseBtn.addEventListener('click', closeModal);
-            
-            // Close modal when clicking outside
-            projectDetailModal.addEventListener('click', function(e) {
-                if (e.target === projectDetailModal) {
-                    closeModal();
-                }
-            });
-            
-            // AI Skills Analysis
-            const generateSummaryBtn = document.getElementById('generateSummaryBtn');
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            const aiResponseDiv = document.getElementById('aiResponse');
-            const aiResponseText = document.getElementById('aiResponseText');
-            
-            generateSummaryBtn.addEventListener('click', async function() {
-                const userDescription = document.getElementById('projectDescription').value.trim();
-                
-                if (!userDescription) {
-                    aiResponseText.innerHTML = '<span class="text-red-500">Veuillez décrire le projet ou le poste avant de générer l\'analyse.</span>';
-                    aiResponseDiv.classList.remove('hidden');
-                    return;
-                }
-                
-                aiResponseDiv.classList.add('hidden');
-                loadingIndicator.classList.remove('hidden');
-                aiResponseText.textContent = '';
-                
-                // Simulate API call (replace with actual API call)
-                setTimeout(() => {
-                    loadingIndicator.classList.add('hidden');
-                    
-                    // This is a mock response - replace with actual API response
-                    const mockResponse = `En tant qu'Ingénieur en Réseaux et Systèmes avec une expertise en administration réseau, sécurité informatique et développement web fullstack, je suis particulièrement bien placé pour répondre à ce besoin. Mes compétences en configuration de réseaux complexes (Cisco, FortiGate), en optimisation de serveurs cloud (AWS) et en développement d'applications web (React, Node.js, MySQL) me permettent d'apporter une solution complète et intégrée. Mon approche méthodique et mon souci du détail garantissent une mise en œuvre efficace et sécurisée de votre projet.`;
-                    
-                    aiResponseText.textContent = mockResponse;
-                    aiResponseDiv.classList.remove('hidden');
-                }, 2000);
-            });
-            
-            // Contact Form Submission
-            const contactForm = document.getElementById('contactForm');
-            const contactLoadingIndicator = document.getElementById('contactLoadingIndicator');
-            const contactFormMessage = document.getElementById('contactFormMessage');
-            
-            contactForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const message = document.getElementById('message').value;
-                
-                contactFormMessage.classList.add('hidden');
-                contactLoadingIndicator.classList.remove('hidden');
-                
-                // Simulate form submission (replace with actual form submission)
-                setTimeout(() => {
-                    contactLoadingIndicator.classList.add('hidden');
-                    
-                    // This is a mock response - replace with actual form submission response
-                    const success = true;
-                    const responseMessage = success 
-                        ? 'Votre message a été envoyé avec succès ! Je vous répondrai dès que possible.'
-                        : 'Une erreur est survenue lors de l\'envoi de votre message. Veuillez réessayer plus tard.';
-                    
-                    contactFormMessage.textContent = responseMessage;
-                    contactFormMessage.className = success 
-                        ? 'mt-4 p-4 rounded-lg bg-green-100 text-green-800'
-                        : 'mt-4 p-4 rounded-lg bg-red-100 text-red-800';
-                    contactFormMessage.classList.remove('hidden');
-                    
-                    if (success) {
-                        contactForm.reset();
-                    }
-                }, 1500);
+        // --- 1. Navigation Mobile ---
+        const mobileMenuButton = document.querySelector('.mobile-menu-button');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            // Toggle icons (optional: add a second SVG for close icon and toggle its visibility)
+            const openIcon = mobileMenuButton.querySelector('svg:first-child');
+            const closeIcon = mobileMenuButton.querySelector('svg:last-child');
+            openIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        const mobileNavLinks = document.querySelectorAll('.mobile-menu a');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                const openIcon = mobileMenuButton.querySelector('svg:first-child');
+                const closeIcon = mobileMenuButton.querySelector('svg:last-child');
+                openIcon.classList.remove('hidden'); // Ensure open icon is shown
+                closeIcon.classList.add('hidden'); // Ensure close icon is hidden
             });
         });
+
+        // --- 2. Modale des Détails de Projet ---
+        const projectDetailModal = document.getElementById('projectDetailModal');
+        const closeModalBtn = projectDetailModal.querySelector('.close-button');
+        const modalProjectTitle = document.getElementById('modalProjectTitle');
+        const modalProjectDescription = document.getElementById('modalProjectDescription');
+        const modalProjectDetails = document.getElementById('modalProjectDetails');
+
+        document.querySelectorAll('.project-detail-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                modalProjectTitle.textContent = button.dataset.projectTitle;
+                modalProjectDescription.textContent = button.dataset.projectDescription;
+                modalProjectDetails.innerHTML = button.dataset.projectDetails;
+                projectDetailModal.style.display = 'flex'; // Use flex to center with CSS
+            });
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            projectDetailModal.style.display = 'none';
+        });
+
+        // Close modal if user clicks outside of it
+        window.addEventListener('click', (event) => {
+            if (event.target === projectDetailModal) {
+                projectDetailModal.style.display = 'none';
+            }
+        });
+
+        // --- 3. Analyse des Compétences IA (Simulation) ---
+        const generateSummaryBtn = document.getElementById('generateSummaryBtn');
+        const projectDescriptionTextarea = document.getElementById('projectDescription');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const aiResponseDiv = document.getElementById('aiResponse');
+        const aiResponseText = document.getElementById('aiResponseText');
+        const knownSkills = [
+            "Informatique Générale", "Administration Réseaux", "Développement Web",
+            "Bases de Données", "Sécurité Informatique", "Virtualisation"
+        ];
+
+        generateSummaryBtn.addEventListener('click', () => {
+            const description = projectDescriptionTextarea.value.trim();
+            if (description === "") {
+                aiResponseDiv.classList.add('hidden');
+                alert("Veuillez décrire le projet pour analyser les compétences.");
+                return;
+            }
+
+            loadingIndicator.classList.remove('hidden');
+            aiResponseDiv.classList.add('hidden'); // Hide previous response
+
+            // Simulate API call delay
+            setTimeout(() => {
+                loadingIndicator.classList.add('hidden');
+
+                let matchedSkills = [];
+                let responseContent = "";
+
+                // Simple keyword matching for demonstration
+                if (description.toLowerCase().includes("réseau") || description.toLowerCase().includes("infrastructure")) {
+                    matchedSkills.push("Administration Réseaux");
+                }
+                if (description.toLowerCase().includes("développement") || description.toLowerCase().includes("application") || description.toLowerCase().includes("web")) {
+                    matchedSkills.push("Développement Web");
+                }
+                if (description.toLowerCase().includes("base de données") || description.toLowerCase().includes("sql")) {
+                    matchedSkills.push("Bases de Données");
+                }
+                if (description.toLowerCase().includes("sécurité") || description.toLowerCase().includes("cybermenaces")) {
+                    matchedSkills.push("Sécurité Informatique");
+                }
+                if (description.toLowerCase().includes("serveur") || description.toLowerCase().includes("linux") || description.toLowerCase().includes("windows") || description.toLowerCase().includes("cloud")) {
+                    matchedSkills.push("Virtualisation"); // Could also be Administration Systèmes
+                }
+                if (matchedSkills.length === 0) {
+                     matchedSkills.push("Informatique Générale"); // Default if no specific match
+                }
+                
+                responseContent = `Pour un projet tel que : "${description}", les compétences de Ir Daniel Bimpa en **${matchedSkills.join(', ')}** seraient particulièrement pertinentes.`;
+                responseContent += ` Il peut vous aider à :<ul class="list-disc list-inside mt-2">`;
+
+                if (matchedSkills.includes("Administration Réseaux")) {
+                    responseContent += `<li>Concevoir et sécuriser des architectures réseau.</li>`;
+                }
+                if (matchedSkills.includes("Développement Web")) {
+                    responseContent += `<li>Développer des applications web robustes et performantes.</li>`;
+                }
+                if (matchedSkills.includes("Bases de Données")) {
+                    responseContent += `<li>Gérer et optimiser vos systèmes de bases de données.</li>`;
+                }
+                if (matchedSkills.includes("Sécurité Informatique")) {
+                    responseContent += `<li>Mettre en place des stratégies de défense contre les cybermenaces.</li>`;
+                }
+                if (matchedSkills.includes("Virtualisation")) {
+                    responseContent += `<li>Administrer et optimiser vos environnements serveurs physiques ou cloud.</li>`;
+                }
+                if (matchedSkills.includes("Informatique Générale") && matchedSkills.length === 1) {
+                     responseContent += `<li>Appliquer une approche holistique et une forte capacité d'adaptation à diverses technologies.</li>`;
+                }
+                responseContent += `</ul><p class="mt-2">N'hésitez pas à le contacter pour discuter de vos besoins spécifiques !</p>`;
+
+
+                aiResponseText.innerHTML = responseContent;
+                aiResponseDiv.classList.remove('hidden');
+
+            }, 1500); // 1.5 seconds delay
+        });
+
+        // --- 4. Carrousel d'Images ---
+        const carouselInner = document.querySelector('.carousel-inner');
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const prevBtn = document.querySelector('.carousel-control-prev');
+        const nextBtn = document.querySelector('.carousel-control-next');
+        const indicatorsContainer = document.getElementById('carousel-indicators');
+        let currentIndex = 0;
+
+        function showSlide(index) {
+            // Hide all items
+            carouselItems.forEach(item => item.classList.remove('active'));
+            // Show the current item
+            carouselItems[index].classList.add('active');
+
+            // Update indicators
+            indicatorsContainer.querySelectorAll('button').forEach((indicator, i) => {
+                if (i === index) {
+                    indicator.classList.remove('bg-gray-300');
+                    indicator.classList.add('bg-blue-600');
+                } else {
+                    indicator.classList.remove('bg-blue-600');
+                    indicator.classList.add('bg-gray-300');
+                }
+            });
+        }
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : carouselItems.length - 1;
+            showSlide(currentIndex);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex < carouselItems.length - 1) ? currentIndex + 1 : 0;
+            showSlide(currentIndex);
+        });
+
+        indicatorsContainer.querySelectorAll('button').forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                currentIndex = index;
+                showSlide(currentIndex);
+            });
+        });
+
+        // Initialize carousel
+        showSlide(currentIndex);
+
+
+        // --- 5. Formulaire de Contact (Simulation) ---
+        const contactForm = document.getElementById('contactForm');
+        const submitContactBtn = document.getElementById('submitContactBtn');
+        const contactLoadingIndicator = document.getElementById('contactLoadingIndicator');
+        const contactFormMessage = document.getElementById('contactFormMessage');
+
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            contactLoadingIndicator.classList.remove('hidden');
+            contactFormMessage.classList.add('hidden'); // Hide previous message
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if (!name || !email || !message) {
+                contactLoadingIndicator.classList.add('hidden');
+                contactFormMessage.classList.remove('hidden');
+                contactFormMessage.classList.add('bg-red-100', 'text-red-700');
+                contactFormMessage.innerHTML = `<i class="fas fa-exclamation-circle mr-2"></i> Veuillez remplir tous les champs.`;
+                return;
+            }
+
+            // Simulate sending data to a server
+            setTimeout(() => {
+                contactLoadingIndicator.classList.add('hidden');
+                contactFormMessage.classList.remove('hidden');
+
+                // Simulate success or failure
+                const success = Math.random() > 0.2; // 80% chance of success
+
+                if (success) {
+                    contactFormMessage.classList.remove('bg-red-100', 'text-red-700');
+                    contactFormMessage.classList.add('bg-green-100', 'text-green-700');
+                    contactFormMessage.innerHTML = `<i class="fas fa-check-circle mr-2"></i> Votre message a été envoyé avec succès ! Je vous répondrai bientôt.`;
+                    contactForm.reset(); // Clear the form
+                } else {
+                    contactFormMessage.classList.remove('bg-green-100', 'text-green-700');
+                    contactFormMessage.classList.add('bg-red-100', 'text-red-700');
+                    contactFormMessage.innerHTML = `<i class="fas fa-exclamation-circle mr-2"></i> Une erreur est survenue lors de l'envoi de votre message. Veuillez réessayer plus tard.`;
+                }
+            }, 2000); // 2 seconds delay
+        });
+
+        // --- 6. Bouton "Retour en haut" ---
+        const backToTopBtn = document.getElementById('backToTopBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) { // Show button after scrolling 300px
+                backToTopBtn.classList.remove('hidden');
+            } else {
+                backToTopBtn.classList.add('hidden');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // --- 7. Année Actuelle dans le Footer ---
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
     </script>
 </body>
 </html>
