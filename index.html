@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Ir Daniel Bimpa - Ingénieur Réseaux & Systèmes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a2a4b 0%, #2c5364 100%);
+        }
+        
+        .skill-badge {
+            transition: all 0.3s ease;
+        }
+        
+        .skill-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+            perspective: 1000px;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .profile-img {
+            border: 4px solid #3b82f6;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .back-to-top {
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .carousel-item img {
+            max-height: 500px;
+            object-fit: contain;
+        }
+        
+        .carousel-caption {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 0.5rem;
+        }
+        
+        .contact-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .modal-content {
+            border: none;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <header class="fixed w-full z-50">
+        <nav class="bg-gray-900 text-white shadow-lg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-20 items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="#accueil" class="text-2xl font-bold text-white hover:text-blue-300 transition duration-300">
+                            <span class="text-blue-400">Ir</span> Daniel Bimpa
+                        </a>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-center space-x-4">
+                            <a href="#accueil" class="nav-link px-3 py-2 text-sm font-medium text-white hover:text-blue-300 transition duration-300">Accueil</a>
+                            <a href="#projets" class="nav-link px-3 py-2 text-sm font-medium text-white hover:text-blue-300 transition duration-300">Projets</a>
+                            <a href="#a-propos" class="nav-link px-3 py-2 text-sm font-medium text-white hover:text-blue-300 transition duration-300">À Propos</a>
+                            <a href="#contact" class="nav-link px-3 py-2 text-sm font-medium text-white hover:text-blue-300 transition duration-300">Contact</a>
+                        </div>
+                    </div>
+                    <div class="md:hidden">
+                        <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                            <span class="sr-only">Ouvrir menu principal</span>
+                            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Menu mobile -->
+            <div class="mobile-menu hidden md:hidden bg-gray-800">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="#accueil" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700 rounded-md transition duration-300">Accueil</a>
+                    <a href="#projets" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700 rounded-md transition duration-300">Projets</a>
+                    <a href="#a-propos" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700 rounded-md transition duration-300">À Propos</a>
+                    <a href="#contact" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700 rounded-md transition duration-300">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="accueil" class="gradient-bg text-white min-h-screen flex items-center pt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center md:text-left md:flex md:items-center md:justify-between">
+                <div class="md:w-1/2 mb-12 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                        Bonjour, je suis <span class="text-blue-300">Ir Daniel Bimpa</span>
+                    </h1>
+                    <h2 class="text-2xl md:text-3xl lg:text-4xl font-semibold text-blue-200 mb-8">
+                        Ingénieur en Réseaux & Systèmes Informatiques
+                    </h2>
+                    <p class="text-lg md:text-xl lg:text-2xl text-gray-200 mb-10">
+                        Je conçois et développe des solutions informatiques robustes, de l'infrastructure réseau au développement web, en passant par l'administration de bases de données.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <a href="#projets" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
+                            Voir mes projets
+                        </a>
+                        <a href="#contact" class="bg-transparent hover:bg-white hover:text-gray-900 text-white font-bold py-3 px-8 border-2 border-white rounded-full transition duration-300 transform hover:scale-105">
+                            Me contacter
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative">
+                        <img src="images/profil.jpg" alt="Photo de profil Ir Daniel Bimpa" class="profile-img w-64 h-64 md:w-80 md:h-80 rounded-full object-cover">
+                        <div class="absolute -bottom-5 -right-5 bg-blue-600 text-white p-4 rounded-full shadow-xl">
+                            <i class="fas fa-laptop-code text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projets Section -->
+    <section id="projets" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                    Mes <span class="text-blue-600">Projets</span> Récents
+                </h2>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                    Découvrez une sélection de mes réalisations les plus significatives dans le domaine des réseaux, systèmes et développement.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Projet 1 -->
+                <div class="project-card bg-white rounded-xl overflow-hidden shadow-md">
+                    <img src="images/reseaux.jpg" alt="Déploiement réseau" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
+                                Réseaux
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Déploiement et Administration Réseaux</h3>
+                        <p class="text-gray-600 mb-4">
+                            Mise en place et sécurisation d'infrastructures réseau complexes en équipe, incluant la configuration de routeurs, switchs et firewalls.
+                        </p>
+                        <button class="project-detail-btn text-blue-600 font-medium flex items-center hover:text-blue-800 transition duration-300"
+                            data-project-title="Déploiement et Administration Réseaux"
+                            data-project-description="Ce projet a impliqué la conception, le déploiement et la sécurisation d'une infrastructure réseau pour une PME, en assurant une connectivité fiable et une protection contre les cybermenaces."
+                            data-project-details="<p><strong>Rôle :</strong> Ingénieur Réseaux principal.</p><p><strong>Technologies :</strong> Cisco IOS, FortiGate Firewall, VLANs, OSPF, VPNs.</p><p><strong>Défis :</strong> Intégration de systèmes hétérogènes et migration sans interruption de service.</p><p><strong>Résultats :</strong> Augmentation de la disponibilité du réseau de 99.5% à 99.9% et réduction des incidents de sécurité de 40%.</p>">
+                            Voir les détails <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Projet 2 -->
+                <div class="project-card bg-white rounded-xl overflow-hidden shadow-md">
+                    <img src="images/web.jpg" alt="Développement web" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">
+                                Développement
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Développement Web Fullstack</h3>
+                        <p class="text-gray-600 mb-4">
+                            Conception et développement d'applications web dynamiques, de l'interface utilisateur à la gestion backend, avec intégration de bases de données.
+                        </p>
+                        <button class="project-detail-btn text-blue-600 font-medium flex items-center hover:text-blue-800 transition duration-300"
+                            data-project-title="Application de Gestion Client (CRM)"
+                            data-project-description="Développement d'une application web CRM sur mesure pour une startup, permettant la gestion des clients, des ventes et des interactions, avec un tableau de bord analytique."
+                            data-project-details="<p><strong>Rôle :</strong> Développeur Fullstack.</p><p><strong>Technologies :</strong> HTML, CSS, JavaScript, React.js (Frontend), Node.js/Express (Backend), MySQL.</p><p><strong>Défis :</strong> Optimisation des requêtes SQL pour des bases de données volumineuses et implémentation d'une authentification sécurisée.</p><p><strong>Résultats :</strong> Amélioration de 25% de l'efficacité de la gestion client et augmentation des ventes de 15% grâce à un meilleur suivi.</p>">
+                            Voir les détails <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Projet 3 -->
+                <div class="project-card bg-white rounded-xl overflow-hidden shadow-md">
+                    <img src="images/admin system.jpg" alt="Administration système" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-purple-100 text-purple-800 text-xs font-semibold px-3 py-1 rounded-full">
+                                Systèmes
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Administration Systèmes Cloud</h3>
+                        <p class="text-gray-600 mb-4">
+                            Gestion, maintenance et optimisation de serveurs sous divers OS (Linux, Windows), incluant la virtualisation et stratégies de sécurité.
+                        </p>
+                        <button class="project-detail-btn text-blue-600 font-medium flex items-center hover:text-blue-800 transition duration-300"
+                            data-project-title="Optimisation de Serveurs Cloud pour la Performance"
+                            data-project-description="Projet d'optimisation de l'infrastructure serveur sur AWS, en mettant l'accent sur la performance, la redondance et la réduction des coûts opérationnels."
+                            data-project-details="<p><strong>Rôle :</strong> Administrateur Système Cloud.</p><p><strong>Technologies :</strong> AWS EC2, S3, RDS, Docker, Bash Scripting.</p><p><strong>Défis :</strong> Migration de bases de données et configuration de la mise à l'échelle automatique.</p><p><strong>Résultats :</strong> Amélioration du temps de réponse des applications de 30% et réduction des coûts d'infrastructure de 15%.</p>">
+                            Voir les détails <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- À Propos Section -->
+    <section id="a-propos" class="py-20 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                    À Propos de <span class="text-blue-600">Moi</span>
+                </h2>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                    Découvrez mon parcours, mes compétences et comment je peux vous aider à concrétiser vos projets.
+                </p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-1/3 flex justify-center">
+                    <div class="relative">
+                        <img src="images/profil.jpg" alt="Photo de profil Ir Daniel Bimpa" class="profile-img w-64 h-64 md:w-80 md:h-80 rounded-full object-cover">
+                        <div class="absolute -bottom-3 -right-3 bg-blue-600 text-white p-3 rounded-full shadow-lg">
+                            <i class="fas fa-user-tie text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-2/3">
+                    <div class="bg-white rounded-xl shadow-md p-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Qui suis-je ?</h3>
+                        <p class="text-gray-600 mb-6">
+                            Bonjour ! Je m'appelle <span class="font-semibold text-blue-600">Ir Daniel Bimpa</span> et je suis un Ingénieur en Réseaux et Systèmes Informatiques passionné avec de solides années d'expérience dans le domaine de l'IT. Mon objectif est de créer des solutions informatiques efficaces et robustes qui répondent aux besoins de mes clients et utilisateurs.
+                        </p>
+                        <p class="text-gray-600 mb-6">
+                            J'aime relever de nouveaux défis et apprendre constamment. Ma curiosité me pousse à explorer les dernières tendances et technologies pour offrir des résultats innovants et de haute qualité.
+                        </p>
+                        <p class="text-gray-600 mb-8">
+                            Au-delà de mes compétences techniques, je suis également rigoureux, méthodique et j'apprécie particulièrement le travail d'équipe et la transmission de connaissances.
+                        </p>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Mes <span class="text-blue-600">Compétences</span></h3>
+                        <div class="flex flex-wrap gap-3 mb-8">
+                            <span class="skill-badge bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-medium">Informatique Générale</span>
+                            <span class="skill-badge bg-green-100 text-green-800 px-4 py-2 rounded-full font-medium">Administration Réseaux</span>
+                            <span class="skill-badge bg-purple-100 text-purple-800 px-4 py-2 rounded-full font-medium">Développement Web</span>
+                            <span class="skill-badge bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full font-medium">Bases de Données</span>
+                            <span class="skill-badge bg-red-100 text-red-800 px-4 py-2 rounded-full font-medium">Sécurité Informatique</span>
+                            <span class="skill-badge bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium">Virtualisation</span>
+                        </div>
+                        
+                        <div class="border-t border-gray-200 pt-8">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-6">✨ <span class="text-blue-600">Votre Projet</span>, Mes Compétences</h3>
+                            <p class="text-gray-600 mb-6">
+                                Décrivez brièvement un projet, un poste ou un défi. Mon assistant IA vous montrera comment mes compétences s'y adaptent.
+                            </p>
+                            
+                            <div class="mb-4">
+                                <textarea id="projectDescription" rows="5" class="contact-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex: Nous cherchons un ingénieur pour sécuriser notre infrastructure cloud et développer une application interne de gestion de base de données..."></textarea>
+                            </div>
+                            
+                            <button id="generateSummaryBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg w-full md:w-auto">
+                                <i class="fas fa-magic mr-2"></i> Générer l'Analyse des Compétences
+                            </button>
+                            
+                            <div id="loadingIndicator" class="hidden mt-6 text-center">
+                                <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-600 mb-2"></div>
+                                <p class="text-gray-600">Analyse en cours, veuillez patienter...</p>
+                            </div>
+                            
+                            <div id="aiResponse" class="hidden mt-6 bg-blue-50 border border-blue-200 rounded-xl p-6">
+                                <h4 class="text-xl font-bold text-blue-800 mb-3 flex items-center">
+                                    <i class="fas fa-magic text-blue-600 mr-2"></i> Résultat de l'Analyse :
+                                </h4>
+                                <p class="text-gray-700" id="aiResponseText"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Réalisations et Engagements -->
+            <div class="mt-20">
+                <h3 class="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-10">Mes <span class="text-blue-600">Réalisations</span> et Engagements</h3>
+                
+                <div class="relative">
+                    <div class="carousel relative rounded-xl overflow-hidden shadow-xl">
+                        <div class="carousel-inner relative w-full overflow-hidden">
+                            <!-- Slide 1 -->
+                            <div class="carousel-item active relative float-left w-full">
+                                <img src="images/formateur .jpg" class="block w-full h-96 object-cover" alt="Formation et Transmission">
+                                <div class="carousel-caption absolute bottom-0 left-0 right-0 p-6 bg-black bg-opacity-70 text-white">
+                                    <h5 class="text-xl font-bold mb-2">Formation et Transmission</h5>
+                                    <p>Partager mes connaissances est une passion, pour développer les compétences de demain.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Slide 2 -->
+                            <div class="carousel-item relative float-left w-full">
+                                <img src="images/mon certicat.jpg" class="block w-full h-96 object-cover" alt="Certifications Obtenues">
+                                <div class="carousel-caption absolute bottom-0 left-0 right-0 p-6 bg-black bg-opacity-70 text-white">
+                                    <h5 class="text-xl font-bold mb-2">Certifications Obtenues</h5>
+                                    <p>Des preuves concrètes de mon expertise et de mes acquis professionnels.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Slide 3 -->
+                            <div class="carousel-item relative float-left w-full">
+                                <img src="images/certication .jpg" class="block w-full h-96 object-cover" alt="Reconnaissance et Réseautage">
+                                <div class="carousel-caption absolute bottom-0 left-0 right-0 p-6 bg-black bg-opacity-70 text-white">
+                                    <h5 class="text-xl font-bold mb-2">Reconnaissance et Réseautage</h5>
+                                    <p>Des accomplissements collectifs et un engagement au sein de la communauté IT.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Slide 4 -->
+                            <div class="carousel-item relative float-left w-full">
+                                <img src="images/QIKA5495[1].jpg" class="block w-full h-96 object-cover" alt="Interventions et Conférences">
+                                <div class="carousel-caption absolute bottom-0 left-0 right-0 p-6 bg-black bg-opacity-70 text-white">
+                                    <h5 class="text-xl font-bold mb-2">Interventions et Conférences</h5>
+                                    <p>Engagé dans la communauté, je partage activement mon savoir lors d'événements IT.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Slide 5 -->
+                            <div class="carousel-item relative float-left w-full">
+                                <img src="images/travailler en equipe en reseaux.JPG" class="block w-full h-96 object-cover" alt="Collaboration et Projets d'Équipe">
+                                <div class="carousel-caption absolute bottom-0 left-0 right-0 p-6 bg-black bg-opacity-70 text-white">
+                                    <h5 class="text-xl font-bold mb-2">Collaboration et Projets d'Équipe</h5>
+                                    <p>La force du travail d'équipe au service de solutions réseau innovantes.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Contrôles -->
+                        <button class="carousel-control-prev absolute top-1/2 left-4 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition duration-300" type="button">
+                            <i class="fas fa-chevron-left"></i>
+                            <span class="sr-only">Précédent</span>
+                        </button>
+                        <button class="carousel-control-next absolute top-1/2 right-4 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition duration-300" type="button">
+                            <i class="fas fa-chevron-right"></i>
+                            <span class="sr-only">Suivant</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Indicateurs -->
+                    <div class="flex justify-center mt-4 space-x-2">
+                        <button class="w-3 h-3 rounded-full bg-blue-600" aria-label="Slide 1"></button>
+                        <button class="w-3 h-3 rounded-full bg-gray-300" aria-label="Slide 2"></button>
+                        <button class="w-3 h-3 rounded-full bg-gray-300" aria-label="Slide 3"></button>
+                        <button class="w-3 h-3 rounded-full bg-gray-300" aria-label="Slide 4"></button>
+                        <button class="w-3 h-3 rounded-full bg-gray-300" aria-label="Slide 5"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                    Me <span class="text-blue-600">Contacter</span>
+                </h2>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                    Vous avez un projet en tête ou simplement envie de discuter ? N'hésitez pas à me contacter !
+                </p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-1/2">
+                    <form id="contactForm" class="bg-gray-50 rounded-xl shadow-md p-8">
+                        <div class="mb-6">
+                            <label for="name" class="block text-gray-700 font-medium mb-2">Nom Complet</label>
+                            <input type="text" id="name" name="name" required class="contact-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="email" class="block text-gray-700 font-medium mb-2">Adresse Email</label>
+                            <input type="email" id="email" name="email" required class="contact-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 font-medium mb-2">Votre Message</label>
+                            <textarea id="message" name="message" rows="5" required class="contact-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        
+                        <button type="submit" id="submitContactBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg">
+                            Envoyer le Message
+                        </button>
+                        
+                        <div id="contactFormMessage" class="hidden mt-4 p-4 rounded-lg"></div>
+                        
+                        <div id="contactLoadingIndicator" class="hidden mt-6 text-center">
+                            <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-600 mb-2"></div>
+                            <p class="text-gray-600">Envoi de votre message, veuillez patienter...</p>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <div class="bg-gray-50 rounded-xl shadow-md p-8 h-full">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Coordonnées</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-blue-100 p-3 rounded-full text-blue-600">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-medium text-gray-900">Téléphone</h4>
+                                    <a href="tel:+25768792720" class="text-blue-600 hover:text-blue-800 transition duration-300">+257 68 792 720</a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-blue-100 p-3 rounded-full text-blue-600">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-medium text-gray-900">Email</h4>
+                                    <a href="mailto:bimpadaniel133@gmail.com" class="text-blue-600 hover:text-blue-800 transition duration-300">bimpadaniel133@gmail.com</a><br>
+                                    <a href="mailto:innovatech133@gmail.com" class="text-blue-600 hover:text-blue-800 transition duration-300">innovatech133@gmail.com</a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-blue-100 p-3 rounded-full text-blue-600">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-medium text-gray-900">Localisation</h4>
+                                    <p class="text-gray-600">Burundi</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-blue-100 p-3 rounded-full text-blue-600">
+                                    <i class="fas fa-share-alt"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-medium text-gray-900">Réseaux Sociaux</h4>
+                                    <div class="flex space-x-4 mt-2">
+                                        <a href="https://www.linkedin.com/in/votreprofil" target="_blank" class="text-gray-600 hover:text-blue-600 transition duration-300">
+                                            <i class="fab fa-linkedin text-2xl"></i>
+                                        </a>
+                                        <a href="https://github.com/votregithub" target="_blank" class="text-gray-600 hover:text-gray-900 transition duration-300">
+                                            <i class="fab fa-github text-2xl"></i>
+                                        </a>
+                                        <a href="https://www.behance.net/votreprofil" target="_blank" class="text-gray-600 hover:text-blue-800 transition duration-300">
+                                            <i class="fab fa-behance text-2xl"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <a href="#accueil" class="text-2xl font-bold text-white hover:text-blue-300 transition duration-300">
+                        <span class="text-blue-400">Ir</span> Daniel Bimpa
+                    </a>
+                    <p class="mt-2 text-gray-400">Ingénieur en Réseaux & Systèmes Informatiques</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#accueil" class="text-gray-400 hover:text-white transition duration-300">Accueil</a>
+                    <a href="#projets" class="text-gray-400 hover:text-white transition duration-300">Projets</a>
+                    <a href="#a-propos" class="text-gray-400 hover:text-white transition duration-300">À Propos</a>
+                    <a href="#contact" class="text-gray-400 hover:text-white transition duration-300">Contact</a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">&copy; 2025 Ir Daniel Bimpa. Tous droits réservés.</p>
+                
+                <div class="flex space-x-6">
+                    <a href="https://www.linkedin.com/in/votreprofil" target="_blank" class="text-gray-400 hover:text-blue-400 transition duration-300">
+                        <i class="fab fa-linkedin text-xl"></i>
+                    </a>
+                    <a href="https://github.com/votregithub" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="https://www.behance.net/votreprofil" target="_blank" class="text-gray-400 hover:text-blue-600 transition duration-300">
+                        <i class="fab fa-behance text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" class="back-to-top fixed bottom-8 right-8 bg-blue-600 text-white p-4 rounded-full shadow-xl opacity-0 invisible transition-all duration-300">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Project Detail Modal -->
+    <div id="projectDetailModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 opacity-0 invisible transition-opacity duration-300">
+        <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 id="modalProjectTitle" class="text-2xl font-bold text-gray-900"></h3>
+                    <button id="closeModalBtn" class="text-gray-400 hover:text-gray-600 transition duration-300">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <p id="modalProjectDescription" class="text-gray-600 mb-6"></p>
+                
+                <div id="modalProjectDetails" class="prose max-w-none"></div>
+                
+                <div class="mt-8">
+                    <button id="modalCloseBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
+                        Fermer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.querySelector('.mobile-menu-button');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+            
+            // Smooth scrolling for all links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        const navbarHeight = document.querySelector('nav').offsetHeight;
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Back to Top Button
+            const backToTopBtn = document.getElementById('backToTopBtn');
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.remove('invisible');
+                    backToTopBtn.classList.add('visible');
+                    backToTopBtn.classList.remove('opacity-0');
+                    backToTopBtn.classList.add('opacity-100');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                    backToTopBtn.classList.add('invisible');
+                    backToTopBtn.classList.remove('opacity-100');
+                    backToTopBtn.classList.add('opacity-0');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Carousel functionality
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.carousel-item');
+            const dots = document.querySelectorAll('.carousel-inner button');
+            const prevBtn = document.querySelector('.carousel-control-prev');
+            const nextBtn = document.querySelector('.carousel-control-next');
+            
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+                
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('bg-blue-600', i === index);
+                    dot.classList.toggle('bg-gray-300', i !== index);
+                });
+                
+                currentSlide = index;
+            }
+            
+            prevBtn.addEventListener('click', function() {
+                showSlide((currentSlide - 1 + slides.length) % slides.length);
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                showSlide((currentSlide + 1) % slides.length);
+            });
+            
+            dots.forEach((dot, i) => {
+                dot.addEventListener('click', () => showSlide(i));
+            });
+            
+            // Auto-rotate carousel
+            let carouselInterval = setInterval(() => {
+                showSlide((currentSlide + 1) % slides.length);
+            }, 5000);
+            
+            // Pause carousel on hover
+            const carousel = document.querySelector('.carousel');
+            carousel.addEventListener('mouseenter', () => clearInterval(carouselInterval));
+            carousel.addEventListener('mouseleave', () => {
+                carouselInterval = setInterval(() => {
+                    showSlide((currentSlide + 1) % slides.length);
+                }, 5000);
+            });
+            
+            // Project Detail Modal
+            const projectDetailModal = document.getElementById('projectDetailModal');
+            const projectDetailButtons = document.querySelectorAll('.project-detail-btn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const modalCloseBtn = document.getElementById('modalCloseBtn');
+            
+            projectDetailButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const title = this.getAttribute('data-project-title');
+                    const description = this.getAttribute('data-project-description');
+                    const details = this.getAttribute('data-project-details');
+                    
+                    document.getElementById('modalProjectTitle').textContent = title;
+                    document.getElementById('modalProjectDescription').textContent = description;
+                    document.getElementById('modalProjectDetails').innerHTML = details;
+                    
+                    projectDetailModal.classList.remove('invisible');
+                    projectDetailModal.classList.remove('opacity-0');
+                    projectDetailModal.classList.add('opacity-100');
+                });
+            });
+            
+            function closeModal() {
+                projectDetailModal.classList.remove('opacity-100');
+                projectDetailModal.classList.add('opacity-0');
+                setTimeout(() => {
+                    projectDetailModal.classList.add('invisible');
+                }, 300);
+            }
+            
+            closeModalBtn.addEventListener('click', closeModal);
+            modalCloseBtn.addEventListener('click', closeModal);
+            
+            // Close modal when clicking outside
+            projectDetailModal.addEventListener('click', function(e) {
+                if (e.target === projectDetailModal) {
+                    closeModal();
+                }
+            });
+            
+            // AI Skills Analysis
+            const generateSummaryBtn = document.getElementById('generateSummaryBtn');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const aiResponseDiv = document.getElementById('aiResponse');
+            const aiResponseText = document.getElementById('aiResponseText');
+            
+            generateSummaryBtn.addEventListener('click', async function() {
+                const userDescription = document.getElementById('projectDescription').value.trim();
+                
+                if (!userDescription) {
+                    aiResponseText.innerHTML = '<span class="text-red-500">Veuillez décrire le projet ou le poste avant de générer l\'analyse.</span>';
+                    aiResponseDiv.classList.remove('hidden');
+                    return;
+                }
+                
+                aiResponseDiv.classList.add('hidden');
+                loadingIndicator.classList.remove('hidden');
+                aiResponseText.textContent = '';
+                
+                // Simulate API call (replace with actual API call)
+                setTimeout(() => {
+                    loadingIndicator.classList.add('hidden');
+                    
+                    // This is a mock response - replace with actual API response
+                    const mockResponse = `En tant qu'Ingénieur en Réseaux et Systèmes avec une expertise en administration réseau, sécurité informatique et développement web fullstack, je suis particulièrement bien placé pour répondre à ce besoin. Mes compétences en configuration de réseaux complexes (Cisco, FortiGate), en optimisation de serveurs cloud (AWS) et en développement d'applications web (React, Node.js, MySQL) me permettent d'apporter une solution complète et intégrée. Mon approche méthodique et mon souci du détail garantissent une mise en œuvre efficace et sécurisée de votre projet.`;
+                    
+                    aiResponseText.textContent = mockResponse;
+                    aiResponseDiv.classList.remove('hidden');
+                }, 2000);
+            });
+            
+            // Contact Form Submission
+            const contactForm = document.getElementById('contactForm');
+            const contactLoadingIndicator = document.getElementById('contactLoadingIndicator');
+            const contactFormMessage = document.getElementById('contactFormMessage');
+            
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+                
+                contactFormMessage.classList.add('hidden');
+                contactLoadingIndicator.classList.remove('hidden');
+                
+                // Simulate form submission (replace with actual form submission)
+                setTimeout(() => {
+                    contactLoadingIndicator.classList.add('hidden');
+                    
+                    // This is a mock response - replace with actual form submission response
+                    const success = true;
+                    const responseMessage = success 
+                        ? 'Votre message a été envoyé avec succès ! Je vous répondrai dès que possible.'
+                        : 'Une erreur est survenue lors de l\'envoi de votre message. Veuillez réessayer plus tard.';
+                    
+                    contactFormMessage.textContent = responseMessage;
+                    contactFormMessage.className = success 
+                        ? 'mt-4 p-4 rounded-lg bg-green-100 text-green-800'
+                        : 'mt-4 p-4 rounded-lg bg-red-100 text-red-800';
+                    contactFormMessage.classList.remove('hidden');
+                    
+                    if (success) {
+                        contactForm.reset();
+                    }
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
